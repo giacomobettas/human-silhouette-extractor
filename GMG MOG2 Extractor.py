@@ -4,29 +4,28 @@
 ## Takes video file as input, generates silhouette
 ## mask and saves it.
 ##################################################
-## Author: Jordan Kee
-## Date: 2020-10-25
-##################################################
+
 
 import cv2
 import time
 
 # Loads video file into CV2
-cap = cv2.VideoCapture('1_source.mp4')
+cap = cv2.VideoCapture('test1.avi')
 
 # Get video file's dimensions
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 
 # Creates output video file
-# out = cv2.VideoWriter('1_gmg.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (frame_width,frame_height))
+out = cv2.VideoWriter('1_mog2.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (frame_width,frame_height))
 
 # Create SE to be used as kernel during morphological operation
 kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
 
-# Creates subtractor, uncomment appropriate line to use either MOG2 or GMG
-# subtractor = cv2.createBackgroundSubtractorMOG2()
-subtractor = cv2.bgsegm.createBackgroundSubtractorGMG(10, .8)
+# Creates subtractor, uncomment appropriate line to use either MOG, MOG2 or GMG
+#subtractor = cv2.bgsegm.createBackgroundSubtractorMOG()
+subtractor = cv2.createBackgroundSubtractorMOG2()
+#subtractor = cv2.bgsegm.createBackgroundSubtractorGMG(10, .8)
 
 prev_frame_time = 0
 new_frame_time = 0
@@ -53,7 +52,11 @@ while(cap.isOpened):
         ret, thresh = cv2.threshold(mask,127,255,cv2.THRESH_BINARY)
         
         # Write processed frame to output file
-        # out.write(thresh)
+        out.write(thresh)
+
+        # Save masked frame as .png
+        #cv2.imwrite("/home/giacomo/Work/DSD/Old Man Down/human-silhouette-extractor/frames/frame%d.png" % new_frame_time, thresh)
+
         
         #Display mask
         cv2.imshow('Silhouette Extractor', thresh)

@@ -73,7 +73,7 @@ def makeSegMask(img):
 
 if __name__ == '__main__':
     # Loads video file into CV2
-    video = cv2.VideoCapture('3_cropped.avi')
+    video = cv2.VideoCapture('test1.avi')
     
     # Get video file's dimensions
     frame_width = int(video.get(3))
@@ -99,7 +99,7 @@ if __name__ == '__main__':
             ret,thresh = cv2.threshold(mask,127,255,cv2.THRESH_BINARY)
             
             # Save masked frame as .png
-            cv2.imwrite("/home/giacomo/Work/DSD/Old Man Down/human-silhouette-extractor/frames/frame%d.png" % new_frame_time, thresh)
+            #cv2.imwrite("/home/giacomo/Work/DSD/Old Man Down/human-silhouette-extractor/frames/frame%d.png" % new_frame_time, thresh)
 
             # Write processed frame to output file
             out.write(thresh)
