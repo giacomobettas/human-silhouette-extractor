@@ -4,9 +4,7 @@
 ## Takes video file as input, generates silhouette
 ## mask and saves it.
 ##################################################
-## Author: Jordan Kee
-## Date: 2020-07-16
-##################################################
+
 
 from __future__ import print_function
 import cv2
@@ -16,7 +14,7 @@ from torchvision import transforms
 import time
 
 # Load pretrained model
-model = torch.hub.load('pytorch/vision:v0.6.0', 'deeplabv3_resnet101', pretrained=True)
+model = torch.hub.load('pytorch/vision:v0.14.0', 'deeplabv3_resnet101', pretrained=True)
 # Segment people only for the purpose of human silhouette extraction
 people_class = 15
 
@@ -75,7 +73,7 @@ def makeSegMask(img):
 
 if __name__ == '__main__':
     # Loads video file into CV2
-    video = cv2.VideoCapture('3_cropped.avi')
+    video = cv2.VideoCapture('test1.avi')
     
     # Get video file's dimensions
     frame_width = int(video.get(3))
@@ -100,6 +98,9 @@ if __name__ == '__main__':
             # Apply thresholding to convert mask to binary map
             ret,thresh = cv2.threshold(mask,127,255,cv2.THRESH_BINARY)
             
+            # Save masked frame as .png
+            #cv2.imwrite("/home/giacomo/Work/DSD/Old Man Down/human-silhouette-extractor/frames/frame%d.png" % new_frame_time, thresh)
+
             # Write processed frame to output file
             out.write(thresh)
             
